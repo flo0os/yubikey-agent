@@ -314,6 +314,7 @@ func (a *Agent) SignWithFlags(key ssh.PublicKey, data []byte, flags agent.Signat
 
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
+		showNotification("Waiting for YubiKey touch...")
 		a.touchNotification = time.NewTimer(5 * time.Second)
 		go func() {
 			select {
@@ -322,7 +323,7 @@ func (a *Agent) SignWithFlags(key ssh.PublicKey, data []byte, flags agent.Signat
 				a.touchNotification.Stop()
 				return
 			}
-			showNotification("Waiting for YubiKey touch...")
+
 		}()
 
 		alg := key.Type()
